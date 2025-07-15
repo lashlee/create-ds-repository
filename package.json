@@ -1,5 +1,6 @@
 {
   "name": "create-ds-project",
+  "publisher": "lashlee",
   "license": "MIT",
   "displayName": "create-ds-project",
   "description": "Create new data science project",
@@ -7,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/lashlee/create-ds-repository"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.102.0"
   },
