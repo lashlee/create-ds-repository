@@ -28,8 +28,9 @@ A simple VSCode extension to scaffold a new data science project with one comman
 
 ## Requirements
 
-- Git Bash (installed via Git for Windows)
-- Python installed and accessible via Git Bash
+- For Windows, Git Bash (installed via Git for Windows)
+- Or just Bash if not on Windows
+- Python installed and accessible via Git Bash or Bash
 
 ## Included Tools
 
