@@ -41,15 +41,22 @@ export function activate(context: vscode.ExtensionContext) {
     copyRecursiveSync(boilerplatePath, projectPath);
 
     const bootstrapPath = path.join(projectPath, 'bootstrap.sh').replace(/\\/g, '/');
-    const bashCommand = `"C:\\Program Files\\Git\\bin\\bash.exe" "${bootstrapPath}"`;
-
+    
     const output = vscode.window.createOutputChannel('Create DS Project');
     output.show(true); // show immediately
 
-    const bashPath = "C:\\Program Files\\Git\\bin\\bash.exe";
+    // const bashPath = "C:\\Program Files\\Git\\bin\\bash.exe";
+    // const bashPath = vscode.workspace.getConfiguration('createDSProject').get<string>('bashPath') || 'bash';
+    // const bashPath = 'bash';
+    const isWindows = process.platform === 'win32';
+    const bashPath = isWindows
+      ? 'C:\\Program Files\\Git\\bin\\bash.exe'
+      : 'bash';
+
     const bootstrapProcess = spawn(bashPath, [bootstrapPath], {
       cwd: projectPath,
-      shell: false
+      shell: false,
+      env: process.env
     });
 
     bootstrapProcess.stdout.on('data', (data) => {
@@ -58,6 +65,11 @@ export function activate(context: vscode.ExtensionContext) {
 
     bootstrapProcess.stderr.on('data', (data) => {
       output.append(`[stderr] ${data.toString()}`);
+    });
+
+    bootstrapProcess.on('error', (err) => {
+      output.appendLine(`[spawn error] ${err.message}`);
+      vscode.window.showErrorMessage(`Failed to launch: ${err.message}`);
     });
 
     bootstrapProcess.on('close', (code) => {
