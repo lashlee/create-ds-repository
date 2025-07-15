@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 
 function copyRecursiveSync(src: string, dest: string) {
   if (!fs.existsSync(dest)) fs.mkdirSync(dest);
@@ -43,14 +43,34 @@ export function activate(context: vscode.ExtensionContext) {
     const bootstrapPath = path.join(projectPath, 'bootstrap.sh').replace(/\\/g, '/');
     const bashCommand = `"C:\\Program Files\\Git\\bin\\bash.exe" "${bootstrapPath}"`;
 
-    exec(bashCommand, { cwd: projectPath }, (err, stdout, stderr) => {
-      if (err) {
-        vscode.window.showErrorMessage(`Error: ${stderr}`);
-      } else {
+    const output = vscode.window.createOutputChannel('Create DS Project');
+    output.show(true); // show immediately
+
+    const bashPath = "C:\\Program Files\\Git\\bin\\bash.exe";
+    const bootstrapProcess = spawn(bashPath, [bootstrapPath], {
+      cwd: projectPath,
+      shell: false
+    });
+
+    bootstrapProcess.stdout.on('data', (data) => {
+      output.append(data.toString());
+    });
+
+    bootstrapProcess.stderr.on('data', (data) => {
+      output.append(`[stderr] ${data.toString()}`);
+    });
+
+    bootstrapProcess.on('close', (code) => {
+      if (code === 0) {
         vscode.window.showInformationMessage(`${projectName} created and bootstrapped.`);
-        vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(projectPath));
+        setTimeout(() => {
+          vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(projectPath), true);
+        }, 300);
+      } else {
+        vscode.window.showErrorMessage(`bootstrap.sh failed with exit code ${code}`);
       }
     });
+
   });
 
   context.subscriptions.push(disposable);

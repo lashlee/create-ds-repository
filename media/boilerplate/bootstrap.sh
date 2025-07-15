@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 mkdir -p data notebooks scripts models outputs .vscode
-python -m venv .venv
+uv venv .venv
 source .venv/Scripts/activate
-python -m pip install --upgrade pip
-pip install numpy pandas matplotlib seaborn scikit-learn jupyter pytorch statsmodels xgboost lightgbm catboost plotly optuna
-pip freeze > requirements.txt
+uv pip install numpy pandas matplotlib seaborn scikit-learn jupyter statsmodels xgboost lightgbm plotly optuna
+uv pip freeze > requirements.txt
 echo '{"python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python"}' > .vscode/settings.json
-touch README.md main.py notebooks/EDA.ipynb .gitignore
+touch README.md main.py notebooks/scratch.ipynb .gitignore
 echo ".venv/" >> .gitignore
 echo "__pycache__/" >> .gitignore
 echo ".ipynb_checkpoints/" >> .gitignore

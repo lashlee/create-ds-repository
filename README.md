@@ -34,8 +34,8 @@ A simple VSCode extension to scaffold a new data science project with one comman
 ## Included Tools
 
 - Python virtualenv setup
-- Preinstalled packages: `numpy`, `pandas`, `matplotlib`, `seaborn`, `scikit-learn`, `jupyter`, `pytorch`, `statsmodels`, `xgboost`, `lightgbm`, `catboost`, `plotly`, `optuna`
-- Auto-generated: `.vscode/settings.json`, `tasks.json`, `.gitignore`, `README.md`, `main.py`, `notebooks/EDA.ipynb`
+- Preinstalled packages: `numpy`, `pandas`, `matplotlib`, `seaborn`, `scikit-learn`, `jupyter`, `statsmodels`, `xgboost`, `lightgbm`, `plotly`, `optuna`
+- Auto-generated: `.vscode/settings.json`, `tasks.json`, `.gitignore`, `README.md`, `main.py`, `notebooks/scratch.ipynb`
 
 ## Notes
 
