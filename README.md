@@ -28,6 +28,7 @@ A simple VSCode extension to scaffold a new data science project with one comman
 
 ## Requirements
 
+- uv installed, see https://github.com/astral-sh/uv#installation
 - For Windows, Git Bash (installed via Git for Windows)
 - Or just Bash if not on Windows
 - Python installed and accessible via Git Bash or Bash
