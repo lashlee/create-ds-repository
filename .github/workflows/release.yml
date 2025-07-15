@@ -3,7 +3,7 @@ name: Package and Release VSCode Extension
 on:
   push:
     tags:
-      - 'v*'  # triggers on version tag pushes like v1.0.0
+      - 'v*'
 
 jobs:
   build-and-release:
@@ -18,8 +18,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Install vsce
         run: npm install -g @vscode/vsce
+
+      - name: Compile TypeScript
+        run: npm run compile
 
       - name: Package VS Code extension
         run: vsce package
